@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+
+rule_files:
+  - /etc/prometheus/alerts.yml
+
+scrape_configs:
+  - job_name: anomaly-api
+    metrics_path: /metrics
+    authorization:
+      credentials: dev-secret   # use credentials_file with a mounted secret in real deployments
+    static_configs:
+      - targets: ["anomaly-api:8000"]

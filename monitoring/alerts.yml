@@ -1,0 +1,24 @@
+groups:
+  - name: anomaly-api
+    rules:
+      - alert: ServiceDown
+        expr: up{job="anomaly-api"} == 0
+        for: 2m
+      - alert: HighErrorRate
+        expr: sum(rate(ad_http_requests_total{status=~"5.."}[5m])) / sum(rate(ad_http_requests_total[5m])) > 0.05
+        for: 5m
+      - alert: SlowInference
+        expr: histogram_quantile(0.95, sum by (le) (rate(ad_inference_duration_seconds_bucket[5m]))) > 2
+        for: 10m
+      - alert: ServerBusy
+        expr: sum(rate(ad_rejected_requests_total{reason="busy"}[5m])) > 0.1
+        for: 5m
+      - alert: AnomalyRateHigh
+        expr: ad_window_anomaly_rate > 0.3
+        for: 15m
+      - alert: ScoreDistributionDrift
+        expr: ad_drift_ks_pvalue < 0.001
+        for: 15m
+      - alert: InputDrift
+        expr: abs(ad_input_mean_zscore) > 4
+        for: 15m

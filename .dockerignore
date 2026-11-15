@@ -1,0 +1,17 @@
+.git
+.github
+.env
+.venv
+__pycache__
+*.pyc
+.pytest_cache
+data/
+reports/
+artifacts/
+predictions/
+anomalib_runs/
+results/
+tests/
+scripts/
+notebooks/
+*.md

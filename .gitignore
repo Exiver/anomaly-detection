@@ -1,0 +1,13 @@
+.env
+data/
+reports/*
+!reports/phase4_findings.md
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+.venv/
+predictions/
+anomalib_runs/
+results/

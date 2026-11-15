@@ -1,0 +1,32 @@
+services:
+  anomaly-api:
+    build:
+      context: .
+      args:
+        RELEASE: v2
+    image: anomaly-api:1.1.0
+    ports:
+      - "8000:8000"
+    environment:
+      AD_DEVICE: cpu
+      AD_JSON_LOGS: "true"
+      AD_API_KEY: ${AD_API_KEY:?set AD_API_KEY in your environment or .env}
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    profiles: ["monitoring"]
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/alerts.yml:/etc/prometheus/alerts.yml:ro
+    depends_on:
+      - anomaly-api

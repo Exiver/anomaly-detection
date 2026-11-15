@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anomaly"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy",
+    "pillow",
+    "pydantic-settings",
+    "structlog",
+]
+
+[project.optional-dependencies]
+train = ["scikit-learn", "scipy", "pandas", "matplotlib"]
+service = ["fastapi", "uvicorn", "python-multipart", "torch", "torchvision", "prometheus-client"]
+dev = ["pytest", "httpx", "ruff", "jupyter"]
+
+onnx = ["onnx", "onnxruntime"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
