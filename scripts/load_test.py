@@ -63,7 +63,8 @@ def main() -> None:
     latencies = sorted(ms for status, ms in results if status == 200)
     print("status counts:", statuses)
     if latencies:
-        pick = lambda q: latencies[int(q * (len(latencies) - 1))]
+        def pick(q):
+            return latencies[int(q * (len(latencies) - 1))]
         print(f"latency ms  p50={pick(0.5):.0f}  p95={pick(0.95):.0f}  p99={pick(0.99):.0f}")
     print(f"throughput: {len(results) / wall:.1f} req/s over {wall:.1f}s")
 

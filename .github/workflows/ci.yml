@@ -22,6 +22,8 @@ jobs:
         run: ruff check .
       - name: Test
         run: pytest -q
+      - name: Repository preflight
+        run: python scripts/preflight.py
 
   docker:
     runs-on: ubuntu-latest
