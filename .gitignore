@@ -5,6 +5,8 @@ reports/*
 __pycache__/
 *.pyc
 .pytest_cache/
+.pytest-tmp/
+.pytest_cache-local/
 .ipynb_checkpoints/
 *.egg-info/
 .venv/
