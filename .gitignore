@@ -1,15 +1,42 @@
+# secrets and local config
 .env
-data/
-reports/*
-!reports/phase4_findings.md
+.env.*
+!.env.example
+
+# python
 __pycache__/
-*.pyc
-.pytest_cache/
-.pytest-tmp/
-.pytest_cache-local/
-.ipynb_checkpoints/
+*.py[cod]
 *.egg-info/
 .venv/
-predictions/
-anomalib_runs/
-results/
+venv/
+.pytest_cache/
+.pytest-tmp*/
+.pytest_cache-local/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# data and generated artifacts (anchored to the repo root: note the leading slash)
+/data/
+/artifacts/
+/predictions/
+/anomalib_runs/
+/results/
+/lightning_logs/
+/space_bundle/
+/static_demo/
+
+# trained model releases are not committed
+/releases/*
+!/releases/.gitkeep
+
+# reports: keep the evidence tables, drop bulky generated images
+/reports/*
+!/reports/RESULTS.md
+!/reports/environment.txt
+!/reports/*.csv
+
+# editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
