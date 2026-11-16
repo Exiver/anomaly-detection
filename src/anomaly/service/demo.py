@@ -1,4 +1,4 @@
-DEMO_HTML = """<!doctype html>
+_TEMPLATE = """<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -26,9 +26,10 @@ DEMO_HTML = """<!doctype html>
 <h1>Visual anomaly detection</h1>
 <p>Pick a product category, then upload a PNG or JPEG image. The score is compared with a threshold calibrated on normal images.</p>
 <div class="row">
+  <!--API_ROW-->
   <label>API key (if required)<input id="key" type="password" autocomplete="off"></label>
   <label>Category<select id="category"></select></label>
-  <button id="reload" type="button">Reload categories</button>
+  <button id="reload" type="button">Connect / reload</button>
 </div>
 <div id="drop"><p>Drop an image here or choose a file</p><input id="file" type="file" accept="image/png,image/jpeg"></div>
 <div id="status" role="status"></div>
@@ -42,11 +43,12 @@ DEMO_HTML = """<!doctype html>
   </div>
 </section>
 <script>
-const $ = (id) => document.getElementById(id);
+const $ = (id) => document.getElementById(id); /*API_BASE_JS*/
 const headers = () => { const key = $("key").value.trim(); return key ? { "X-API-Key": key } : {}; };
 const setStatus = (text) => { $("status").textContent = text; };
 
 async function loadCategories() {
+    if ($("api") && !apiBase()) { setStatus("Enter the API URL, then press Connect."); return; }
   setStatus("Loading categories...");
   try {
     const response = await fetch("/v1/models", { headers: headers() });
@@ -76,9 +78,9 @@ async function analyze(file) {
   $("result").hidden = true;
   const form = new FormData();
   form.append("file", file);
-  const url = "/v1/predict?category=" + encodeURIComponent($("category").value) + "&include_heatmap=true";
+  const url = apiBase() + "/v1/predict?category=" + encodeURIComponent($("category").value) + "&include_heatmap=true";
   try {
-    const response = await fetch(url, { method: "POST", headers: headers(), body: form });
+    const response = await fetch(apiBase() + "/v1/models", { headers: headers() });
     const body = await response.json();
     if (!response.ok) {
       setStatus(typeof body.detail === "string" ? body.detail : "Request failed (HTTP " + response.status + ").");
@@ -117,3 +119,16 @@ loadCategories();
 </body>
 </html>
 """
+
+def render_demo(static: bool = False) -> str:
+    """static=True adds an API URL field, for hosting the page away from the API."""
+    if static:
+        api_row = '<label>API URL<input id="api" type="url" placeholder="https://your-api.example.com"></label>'
+        base_js = r'const apiBase = () => $("api").value.trim().replace(/\/$/, "");'
+    else:
+        api_row = ""
+        base_js = 'const apiBase = () => "";'
+    return _TEMPLATE.replace("<!--API_ROW-->", api_row).replace("/*API_BASE_JS*/", base_js)
+
+
+DEMO_HTML = render_demo()

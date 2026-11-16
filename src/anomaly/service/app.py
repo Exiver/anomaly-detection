@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 
 import structlog
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, Request, Response, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 
 from anomaly.logging_setup import configure_logging
@@ -18,7 +19,6 @@ from anomaly.service.schemas import HealthResponse, ModelInfo, PredictionRespons
 
 log = structlog.get_logger()
 QUIET_PATHS = {"/healthz", "/readyz", "/metrics"}
-
 
 def create_app(
     settings: ServiceSettings | None = None, registry: ModelRegistry | None = None
@@ -35,6 +35,15 @@ def create_app(
         yield
 
     app = FastAPI(title="Anomaly detection service", version="1.1.0", lifespan=lifespan)
+    origins = settings.cors_origin_list()
+    if origins:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_methods=["GET", "POST", "OPTIONS"],
+            allow_headers=["*"],
+            expose_headers=["X-Request-ID"],
+        )
 
     async def require_api_key(
         x_api_key: str | None = Header(default=None),

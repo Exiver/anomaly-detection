@@ -1,0 +1,16 @@
+category,iamge_auroc,pixel_auroc
+bottle,0.9127,0.7454
+cable,0.5352,0.6485
+capsule,0.6725,0.9224
+carpet,0.673,0.7501
+grid,0.9774,0.9342
+hazelnut,0.9718,0.9778
+leather,0.7687,0.9654
+metal_nut,0.5024,0.6489
+pill,0.6669,0.9019
+screw,0.6969,0.9556
+tile,0.7237,0.5647
+toothbrush,0.975,0.9275
+transistor,0.5975,0.7277
+wood,0.9439,0.7859
+zipper,0.8713,0.8286

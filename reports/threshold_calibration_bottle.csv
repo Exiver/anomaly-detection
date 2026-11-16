@@ -1,0 +1,4 @@
+category,rule,threshold,precision,recall,f1,fpr
+bottle,max,1.0765,0.9844,1.0,0.9921,0.05
+bottle,mean+3std,1.132,0.9844,1.0,0.9921,0.05
+bottle,ORACLE (uses test labels),1.2342,1.0,1.0,1.0,0.0

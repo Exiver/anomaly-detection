@@ -1,0 +1,16 @@
+category,train_good,test_total,test_good,test_anomalous,defect_types,width,height,mode
+bottle,209,83,20,63,3,900,900,RGB
+cable,224,150,58,92,8,1024,1024,RGB
+capsule,219,132,23,109,5,1000,1000,RGB
+carpet,280,117,28,89,5,1024,1024,RGB
+grid,264,78,21,57,5,1024,1024,L
+hazelnut,391,110,40,70,4,1024,1024,RGB
+leather,245,124,32,92,5,1024,1024,RGB
+metal_nut,220,115,22,93,4,700,700,RGB
+pill,267,167,26,141,7,800,800,RGB
+screw,320,160,41,119,5,1024,1024,L
+tile,230,117,33,84,5,840,840,RGB
+toothbrush,60,42,12,30,1,1024,1024,RGB
+transistor,213,100,60,40,4,1024,1024,RGB
+wood,247,79,19,60,5,1024,1024,RGB
+zipper,240,151,32,119,7,1024,1024,L

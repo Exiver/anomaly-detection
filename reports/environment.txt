@@ -1,0 +1,25 @@
+python: 3.11.15
+platform: Windows-10-10.0.26300-SP0
+git commit: 03573d971cc131ffc418c84b6fb8c5c961aef792
+cuda available: True
+cuda (torch build): 12.8
+gpu: NVIDIA GeForce RTX 4050 Laptop GPU
+anomalib (separate env): 2.7.0
+
+numpy==2.4.6
+pillow==11.1.0
+scikit-learn==1.8.0
+scipy==1.17.1
+pandas==2.3.3
+matplotlib==3.10.9
+pydantic==2.13.4
+pydantic-settings==2.14.0
+structlog==26.1.0
+torch==2.11.0+cu128
+torchvision==0.26.0+cu128
+fastapi==0.141.1
+uvicorn==0.46.0
+prometheus-client==0.26.0
+httpx==0.28.1
+onnx==not installed
+onnxruntime==1.25.1

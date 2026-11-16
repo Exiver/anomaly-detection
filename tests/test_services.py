@@ -202,3 +202,22 @@ def test_demo_page_is_served(release):
         response = client.get("/demo")
         assert response.status_code == 200
         assert "Visual anomaly detection" in response.text
+
+def test_cors_preflight_allowed_for_configured_origin(release):
+    with make_client(release, cors_origins="https://demo.example") as client:
+        response = client.options(
+            "/v1/predict",
+            headers={
+                "Origin": "https://demo.example",
+                "Access-Control-Request-Method": "POST",
+                "Access-Control-Request-Headers": "x-api-key",
+            },
+        )
+        assert response.status_code == 200
+        assert response.headers["access-control-allow-origin"] == "https://demo.example"
+
+
+def test_no_cors_headers_by_default(release):
+    with make_client(release) as client:
+        response = client.get("/healthz", headers={"Origin": "https://other.example"})
+        assert "access-control-allow-origin" not in response.headers

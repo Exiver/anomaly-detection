@@ -1,0 +1,7 @@
+category,variant,image_auroc,pixel_auroc,pro,ms_per_image,peak_gpu_mb,bank_mb
+bottle,fp32,1.0,0.9797,0.9298,10.4,487.0,67.1
+bottle,fp16_backbone,1.0,0.9797,0.9298,8.8,449.0,67.1
+bottle,fp16_backbone_fp16_bank,1.0,0.9797,0.9298,8.7,483.0,33.6
+carpet,fp32,0.9679,0.9869,0.916,13.0,541.0,89.9
+carpet,fp16_backbone,0.9675,0.9869,0.916,11.0,541.0,89.9
+carpet,fp16_backbone_fp16_bank,0.9675,0.9869,0.916,10.9,586.0,45.0
