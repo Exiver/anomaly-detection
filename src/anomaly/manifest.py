@@ -16,6 +16,7 @@ class CategoryEntry(BaseModel):
     reference_input_mean: float | None = None
     reference_input_mean_std: float | None = None
 
+
 class ReleaseManifest(BaseModel):
     version: str
     created_at: str

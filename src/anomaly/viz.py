@@ -17,7 +17,8 @@ def denormalize(image: torch.Tensor) -> np.ndarray:
     std = torch.tensor(IMAGENET_STD).view(3, 1, 1)
     return (image * std + mean).clamp(0, 1).permute(1, 2, 0).numpy()
 
-def save_heatmaps(dataset, result: EvalResult, out_path: Path, title: str,  n: int = 6) -> None:
+
+def save_heatmaps(dataset, result: EvalResult, out_path: Path, title: str, n: int = 6) -> None:
     anomalous = np.flatnonzero(result.labels == 1)
     step = max(1, len(anomalous) // n)
     chosen = anomalous[::step][:n]
@@ -67,16 +68,10 @@ def save_error_gallery(dataset, result: EvalResult, out_path: Path, title: str, 
 
             axes[row, col].imshow(image)
             if item["mask"].sum() > 0:
-                axes[row, col].contour(
-                    item["mask"].squeeze(0).numpy(), levels=[0.5], colors="red", linewidths=1
-                )
-            axes[row, col].set_title(
-                f"{kind}: {item['defect_type']}  s={result.image_scores[idx]:.2f}", fontsize=8
-            )
+                axes[row, col].contour(item["mask"].squeeze(0).numpy(), levels=[0.5], colors="red", linewidths=1)
+            axes[row, col].set_title(f"{kind}: {item['defect_type']}  s={result.image_scores[idx]:.2f}", fontsize=8)
             axes[row + 1, col].imshow(image)
-            axes[row + 1, col].imshow(
-                result.anomaly_maps[idx], cmap="jet", alpha=0.5, vmin=0, vmax=vmax
-            )
+            axes[row + 1, col].imshow(result.anomaly_maps[idx], cmap="jet", alpha=0.5, vmin=0, vmax=vmax)
             axes[row, col].axis("off")
             axes[row + 1, col].axis("off")
 

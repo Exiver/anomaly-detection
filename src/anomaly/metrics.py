@@ -7,16 +7,14 @@ def image_auroc(labels: np.ndarray, scores: np.ndarray) -> float:
     """labels: (N.) of 0/1. scores: (N.) higher = more anomalous."""
     return float(roc_auc_score(labels, scores))
 
-def pixel_auroc(masks: np.ndarray, anomaly_maps:np.ndarray) ->float:
+
+def pixel_auroc(masks: np.ndarray, anomaly_maps: np.ndarray) -> float:
     """masks and anomaly_maps: (N, H, W). Flattened across all images."""
     return float(roc_auc_score(masks.astype(int).ravel(), anomaly_maps.ravel()))
 
+
 def bootstrap_auroc_ci(
-        labels: np.ndarray,
-        scores: np.ndarray,
-        n_boot: int = 1000,
-        alpha: float = 0.005,
-        seed: int = 0
+    labels: np.ndarray, scores: np.ndarray, n_boot: int = 1000, alpha: float = 0.005, seed: int = 0
 ) -> tuple[float, float]:
     """Percentile bootstrap confidence interval for image-level AUROC."""
     rng = np.random.default_rng(seed)
@@ -30,13 +28,16 @@ def bootstrap_auroc_ci(
     low, high = np.quantile(values, [alpha / 2, 1 - alpha / 2])
     return float(low), float(high)
 
+
 def _trapezoid(x: np.ndarray, y: np.ndarray) -> float:
     return float(np.sum((x[1:] - x[:-1]) * (y[1:] + y[:-1]) / 2.0))
+
+
 def pro_score(
-        masks: np.ndarray,
-        anomaly_maps: np.ndarray,
-        fpr_limit: float = 0.3,
-        n_thresholds: int = 100,
+    masks: np.ndarray,
+    anomaly_maps: np.ndarray,
+    fpr_limit: float = 0.3,
+    n_thresholds: int = 100,
 ) -> float:
     """Area under the per-region-overlap curve up to `fpr_limit`, normalized to [0, 1].
 
@@ -45,7 +46,7 @@ def pro_score(
     connected defect region of the fraction of that region scored above the
     threshold.
     """
-    masks  = masks > 0.5
+    masks = masks > 0.5
     region_ids = np.zeros(masks.shape, dtype=np.int32)
     n_regions = 0
     for i in range(len(masks)):
@@ -62,7 +63,6 @@ def pro_score(
     flat_normal = flat_ids == 0
     region_sizes = np.bincount(flat_ids, minlength=n_regions + 1)[1:].astype(np.float64)
     n_normal = int(flat_normal.sum())
-
 
     normal_scores = flat_maps[flat_normal]
     targets = np.linspace(0.0, fpr_limit, n_thresholds)
