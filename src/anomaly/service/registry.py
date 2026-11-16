@@ -8,8 +8,8 @@ from anomaly.manifest import ReleaseManifest
 from anomaly.models.patchcore import PatchCore
 from anomaly.models.patchcore_features import FeatureExtractor
 from anomaly.service.config import ServiceSettings
-from anomaly.service.inferance import LoadedModel
 from anomaly.service.drifts import DriftMonitor
+from anomaly.service.inferance import LoadedModel
 
 log = structlog.get_logger()
 

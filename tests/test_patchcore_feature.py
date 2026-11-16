@@ -1,5 +1,4 @@
 import torch
-
 from anomaly.models. patchcore_features import FeatureExtractor, build_patch_embedding
 
 
